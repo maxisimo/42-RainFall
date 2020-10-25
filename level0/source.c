@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 #include <sys/types.h>
 #define _GNU_SOURCE
 
@@ -10,7 +11,8 @@ int		main(int ac, char **av)
 	gid_t	gid;
 	uid_t	uid;
 	
-	nb = atoi(argv[1]);
+	nb = atoi(av[1]);
+	(void)ac;
 	if (nb != 423)
 		fwrite("No !\n", 5, 1, stderr);
 	else
