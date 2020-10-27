@@ -1,0 +1,17 @@
+# --------------------------------- #
+#       WEBSITES FOR SOURCE.C       #
+# --------------------------------- #
+
+https://koor.fr/C/cstdio/fwrite.wp
+https://koor.fr/C/cstdio/file.wp
+https://koor.fr/C/cstdlib/system.wp
+https://koor.fr/C/cstdio/fgets.wp
+
+
+
+# ----------------------------------------- #
+#       WEBSITES FOR THE EXPLOITATION       #
+# ----------------------------------------- #
+
+https://itandsecuritystuffs.wordpress.com/2014/03/18/understanding-buffer-overflows-attacks-part-1/
+https://beta.hackndo.com/buffer-overflow/
