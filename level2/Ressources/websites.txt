@@ -9,3 +9,6 @@
 # ----------------------------------------- #
 #       WEBSITES FOR THE EXPLOITATION       #
 # ----------------------------------------- #
+
+https://seanmurphree.com/blog/?p=54
+https://beta.hackndo.com/retour-a-la-libc/
