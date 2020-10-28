@@ -10,7 +10,7 @@ bla
 bla
 level2@RainFall:~$
 ```
-After analyze it with radare2 (please refer to level1 if you want more details on the steps to follow)  
+After analyze it with radare2 (please refer to [level1](https://github.com/maxisimo/42-RainFall/blob/main/level1/walkthrough.md) if you want more details on the steps to follow)  
 We can see that the `main()` function call a function named `p()`.  
 - main() :
 ```
