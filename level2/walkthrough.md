@@ -128,5 +128,11 @@ whoami
 level3
 cat /home/user/level3/.pass  
 492deb0e7d14c4b5695173cca843c4384fe52d0857c2b0718e1a521a4d33ec02
+^C
+level2@RainFall:~$ su level3
+Password:
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
+No RELRO        No canary found   NX disabled   No PIE          No RPATH   No RUNPATH   /home/user/level3/level3
+level3@RainFall:~$
 ```
 Level2 passed!
