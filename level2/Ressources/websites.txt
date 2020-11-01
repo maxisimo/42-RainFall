@@ -2,8 +2,14 @@
 #       WEBSITES FOR SOURCE.C       #
 # --------------------------------- #
 
-
-
+https://beta.hackndo.com/assembly-basics/
+https://koor.fr/C/cstdio/fflush.wp
+https://koor.fr/C/cstdio/fprintf.wp
+https://koor.fr/C/cstdlib/exit.wp
+https://koor.fr/C/cstdio/fputs.wp
+https://koor.fr/C/cstring/strdup.wp
+https://gcc.gnu.org/onlinedocs/gcc/Return-Address.html
+https://stackoverflow.com/questions/1693011/how-can-i-determine-the-return-address-on-stack
 
 
 # ----------------------------------------- #
