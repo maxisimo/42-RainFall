@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-int		m;
+
+int		m = 0;
 
 int		p(char *buffer)
 {
