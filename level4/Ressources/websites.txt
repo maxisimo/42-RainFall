@@ -1,11 +1,1 @@
-# --------------------------------- #
-#       WEBSITES FOR SOURCE.C       #
-# --------------------------------- #
-
-
-
-
-
-# ----------------------------------------- #
-#       WEBSITES FOR THE EXPLOITATION       #
-# ----------------------------------------- #
+same as level3 : https://github.com/maxisimo/42-RainFall/blob/main/level3/Ressources/websites.txt
