@@ -2,10 +2,16 @@
 #       WEBSITES FOR SOURCE.C       #
 # --------------------------------- #
 
-
+https://koor.fr/C/cstdio/fgets.wp
+https://koor.fr/C/cstdio/file.wp
+https://koor.fr/C/cstdlib/system.wp
+https://koor.fr/C/cstdlib/exit.wp
+http://manpagesfr.free.fr/man/man2/_exit.2.html
 
 
 
 # ----------------------------------------- #
 #       WEBSITES FOR THE EXPLOITATION       #
 # ----------------------------------------- #
+
+https://www.ret2rop.com/2018/10/format-strings-got-overwrite-remote.html
