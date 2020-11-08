@@ -29,7 +29,7 @@ Assume the stack looks like this on entry to _main :
                 |    existing     |
                 |  stack content  |
                 +-----------------+
-		        :     OLD_EBP     :
+		:     OLD_EBP     :
   EBP & ESP =>  +-----------------+
 ```
 <+3> : Stack align on 16 bytes. In this particular example, it has the effect of reserving an additional 12 bytes.
@@ -37,11 +37,11 @@ Assume the stack looks like this on entry to _main :
                 |    existing     |
                 |  stack content  |
                 +-----------------+
-		        :     OLD_EBP     :
+		:     OLD_EBP     :
        EBP  =>  +-----------------+
-	            :                 :
-	            :   extra space   :
-	            :                 :
+	        :                 :
+	        :   extra space   :
+	        :                 :
        ESP  =>  +-----------------+
 ```
 The point of this is that there are some "SIMD" (Single Instruction, Multiple Data) instructions (also known in x86-land as "SSE" for "Streaming SIMD Extensions") which can perform parallel operations on multiple words in memory, but require those multiple words to be a block starting at an address which is a multiple of 16 bytes.  
