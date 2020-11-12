@@ -29,12 +29,12 @@ Lets focus on these lines :
    0x08048ecf <+12>:    mov    eax,DWORD PTR [eax]
 ```
 <+6> : Store all parameters of the main function (all argv) in `eax`.  
-<+9> : At this moment we add `0x4` to `eax` to reach `argv[1]`. Here is how it work  
+<+9> : At this moment we add `0x4` to `eax` to reach `argv + 1` (argv[1]). Here is how it work  
 ```
 argc = [ebp+0x8]  
 argv = [ebp+0xc + 4 * ARG_NUMBER]
 ```
-<+12> : We saw with the 2 lines of code before, that `eax` is now pointing to the memory area of `argv[1]` on the stack. Then with the code at this line we store directly the value of `argv[1]` in `eax`, so `eax` is now a pointer to a pointer.  
+<+12> : We saw with the 2 lines of code before, that `eax` is now pointing to the memory area of `argv + 1` on the stack. Then with the code at this line we store directly the value of `argv[1]` in `eax`, so `eax` is now a pointer.  
 A sketch of the stack is probably required :
 ```
                    High addresses
@@ -65,4 +65,4 @@ Good, we retrieved the first parameter. As we said upper, this will be exactly t
    0x08048ecc <+23>:    add    eax,0x8
    0x08048ecf <+26>:    mov    eax,DWORD PTR [eax]
 ```
-<+23> : We add `0x8` to `eax` to reach `argv[2]` ! 
+<+23> : We add `0x8` to `eax` to reach `argv + 2` (argv[2]) ! 
