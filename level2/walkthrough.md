@@ -94,7 +94,8 @@ A check is made to make sure we dont overwrite the return address to an adress o
 	0x08048522 call 0x80483d0                    |         exit (1);
                                                  |     }
 ```
-Due to this check we couldn't point the return address to the stack. This avoids having a shellcode stored on the stack or in environment variable.  
+The restriction on our return address appears to be anything that starts with the the bit ‘b’, indicated by the ‘and’ calculation with the value “0xb0000000”.  
+Due to this check we couldn't point the return address to the stack (0xbf000000 - 0xbfffffff range). This avoids having a shellcode stored on the stack or in environment variable.  
 But if we can't use the stack we can use the heap !  
 We see in the program that the buffer is later copied inside a strdup. This function use malloc who store the memory in ... the heap.
 ```
