@@ -4,10 +4,10 @@
 # -------------------------------- PREREQUIRES -------------------------------- #
 #                            From your local machine                            #
 #       Copy the source and the script files in the tmp folder in your VM       #
-#                  scp -P 4242 path/source.c level1@VM_IP:/tmp                  #
-#                  scp -P 4242 path/script.sh level1@VM_IP:/tmp                 #
+#                  scp -P 4242 path/source.c level9@VM_IP:/tmp                  #
+#                  scp -P 4242 path/script.sh level9@VM_IP:/tmp                 #
 #                                                                               #
-#     pwd: 1fe8a524fa4bec01ca4ea2a869af2a02260d4a7d5fe7e7c24d8617e6dca12d3a     #
+#     pwd: c542e581c5ba5162a85f767996e3247ed619ef6c6f7b76a59435545dc6259f8a     #
 #                                                                               #
 #                                                                               #
 #                                                                               #
@@ -15,22 +15,21 @@
 # ----------------------------------------------------------------------------- #
 
 # Compile the program
-gcc source.c -o ft_level0
+gcc source.c -o ft_level8
 
 # Set SUID to give root user permissions
-chmod u+s ft_level0
+chmod u+s ft_level8
 
 # Add write and execution permissions on home directory
 chmod +wx ~
 
 # Move the program to home directory
-mv ft_level0 ~
+mv ft_level8 ~
 
 
 # Then you have to run the program and cat .pass as level0 by taping manually these commands
 
-# ----------------------------------- #
-#              su level0              #
-#   /home/user/level1/ft_level0 423   #
-#     cat /home/user/level1/.pass     #
-# ----------------------------------- #
+#	su level8
+#	// For the exemple we'll use the 2nd solution ("auth ", "service", "service", "login")
+#	/home/user/level9/ft_level8
+#	cat /home/user/level9/.pass
