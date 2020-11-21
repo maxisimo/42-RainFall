@@ -2,10 +2,5 @@
 #       WEBSITES FOR SOURCE.C       #
 # --------------------------------- #
 
-
-
-
-
-# ----------------------------------------- #
-#       WEBSITES FOR THE EXPLOITATION       #
-# ----------------------------------------- #
+https://www.cplusplus.com/doc/tutorial/
+https://www.w3schools.com/cpp/default.asp
