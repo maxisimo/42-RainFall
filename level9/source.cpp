@@ -1,48 +1,38 @@
 #include <unistd.h>
-#include <string.h>
+#include <cstring>
 
-class N;
-int		operator+(N &left, N &right);
-int		operator-(N &left, N &right);
+class N {
+public:
+	int nb;
+	int (N::*func)(N &);
+	char annotation[100];
 
-void *	vtable[2] = { (void *)operator+, (void *)operator- };
-
-class	N
-{
-	public:
-		int		nb;
-		void	**func;
-		char	annotation[100];
-
-		N(int val) : nb(val)
-		{
-			this->func = (void **) vtable[0];
-		}
-		
-		void	setAnnotation(char *str)
-		{
-			memcpy(this->annotation, str, strlen(str));
-		}
+	N(int val) : nb(val)
+	{
+		this->func = &N::operator+;
+	}
+	int operator+(N &right)
+	{
+		return this->nb + right.nb;
+	}
+	int operator-(N &right)
+	{
+		return this->nb - right.nb;
+	}
+	void setAnnotation(char *str)
+	{
+		memcpy(this->annotation, str, strlen(str));
+	}
 };
-
-int		operator+(N &left, N &right)
-{
-	return (left.nb + right.nb);
-}
-
-int		operator-(N &left, N &right)
-{
-	return (left.nb - right.nb);
-}
 
 int		main(int ac, char **av)
 {
 	if (ac < 1)
 		_exit(1);
-	
-	N	*a = new N(5);
-	N	*b = new N(6);
+
+	N *a = new N(5);
+	N *b = new N(6);
 
 	a->setAnnotation(av[1]);
-	return ( (int (*)(N &, N &)) (b->func)[0] )(*b, *a);
+	return (b->*(b->func))(*a);
 }
