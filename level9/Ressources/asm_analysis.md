@@ -169,11 +169,11 @@ End of assembler dump.
    0x08048698 <+164>:   leave
    0x08048699 <+165>:   ret
 ```
-<+136> : Store the value at `esp+0x10` in `eax` (eax = b).  
-<+140> : Dereferences the result one time (eax = *eax).  
-<+142> : Dereferences it again and store the result in `edx` ((***(fn)b)();).  
+<+136> : Store the value at `esp+0x10` in `eax` (eax = *b).  
+<+140> : Dereferences the result one time (eax = *eax ; eax = b->method).  
+<+142> : Dereferences it again and store the result in `edx` (edx = *b->method()).  
 <+144> - <+156> : Set arguments for function call.  
-<+159> : Call `edx` ((***(fn)b)(b, a);).  
+<+159> : Call `edx` (*b->method(*b, *a) ou b->method[0](*b, *a)).  
 <+136> - <+159> : After setAllocation, in the main, the program calls the + operator function of b on a. It has to dereference b two times (lines <140> and <142>) to get to the first method which is the + operator.  
 <+161> - <+165> : Store the return function of main in `ebx` then we quit the `main()` function.
 
