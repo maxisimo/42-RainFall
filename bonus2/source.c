@@ -6,7 +6,7 @@ int lang = 0;
 
 void greetuser(char *user)
 {
-	char buffer[72];    // ebp-0x48
+	char buffer[64];
 
 	if (lang == 1)
 	{
@@ -26,13 +26,13 @@ void greetuser(char *user)
 
 int main(int ac, char **av)
 {
-	char	buffer[76];     //0x9c - 0x50 = 76
+	char	buffer[72];     //0x28 + 0x20
 	char	*env = NULL;
 
 	if (ac != 3)
 		return 1;
 
-	memset(buffer, 0, 76);
+	memset(buffer, 0, 72);
 	strncpy(buffer, av[1], 40);
 	strncpy(&buffer[40], av[2], 32);
 	env = getenv("LANG");
