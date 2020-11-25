@@ -11,11 +11,11 @@ bonus2@RainFall:~$ ./bonus2 bla bla
 Hello bla
 bonus2@RainFall:~$
 ```
-After analyze it with gdb we can find three interesting functions : `main()` and `greetuser()`.  
-Please refer to file [asm_analysis.md](https://github.com/maxisimo/42-RainFall/blob/main/bonus0/Ressources/asm_analysis.md) in parallel of [source.c](https://github.com/maxisimo/42-RainFall/blob/main/bonus0/source.c) for full explanations.  
+After analyze it with gdb we can find two interesting functions : `main()` and `greetuser()`.  
+Please refer to file [asm_analysis.md](https://github.com/maxisimo/42-RainFall/blob/main/bonus2/Ressources/asm_analysis.md) in parallel of [source.c](https://github.com/maxisimo/42-RainFall/blob/main/bonus2/source.c) for more details.  
 So we enter 2 arguments to the program. Then it copies at most 40 bytes of argv[1] in a buffer, and at most 32 bytes of argv[2] in the same buffer at index 40 (so after argv[1]).  
 WE can see that the program also checks the LANG env variable and sets a global variable to either 1 if LANG is equal to 'fi' or 2 if LANG is equal to 'nl'.  
-Then in greetuser it copies a message (different length depending on the language) in a 72 bytes buffer. And then concatenate to it, our string given as parameter.  
+Then in greetuser it copies a message (different length depending on the language) in a 64 bytes buffer. And then concatenate to it, our string given as parameter.  
 Let's try to get the offset of `eip` with the differents possibles values of LANG with the pattern generator :  
 - LANG!=fi && LANG!=nl
 ```
