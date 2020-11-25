@@ -12,7 +12,6 @@ int		main(int ac, char **av)
 	uid_t	uid;
 	
 	nb = atoi(av[1]);
-	(void)ac;
 	if (nb != 423)
 		fwrite("No !\n", 5, 1, stderr);
 	else

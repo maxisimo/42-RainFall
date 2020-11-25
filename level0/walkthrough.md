@@ -12,21 +12,8 @@ No !
 level0@RainFall:~$
 ```
 The program segfault without parameters and print "No !" with a parameter.  
-Let's analyse it with gdb :
-```
-level0@RainFall:~$ gdb level0
-(gdb) disass main
-Dump of assembler code for function main:
-...
-   0x08048ed4 <+20>:    call   0x8049710 <atoi>              ; atoi(argv[1])
-   0x08048ed9 <+25>:    cmp    $0x1a7,%eax                     ; argv[1] == 423 ?
-...
-   0x08048f06 <+70>:	   mov    DWORD PTR [esp+0x18],eax.     ; euid = geteuid()
-...
-   0x08048f3d <+125>:	call   0x8054690 <setresuid>         ; setresuid(euid, euid, euid)
-...
-End of assembler dump.
-```
+After analyze it with gdb we can find just a `main()`.  
+Please refer to file [asm_analysis.md](https://github.com/maxisimo/42-RainFall/blob/main/level0/Ressources/asm_analysis.md) in parallel of [source.c](https://github.com/maxisimo/42-RainFall/blob/main/level0/source.c) for more details.  
 The function 'atoi' is called. Then, the binary compares the firt arg with the number 423.  
 By passing 423 as the firt argument, the program calls `setuid`, `getuid` and use `execv` to start a new /bin/sh process.
 ```
