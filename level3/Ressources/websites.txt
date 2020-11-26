@@ -1,18 +1,6 @@
-# --------------------------------- #
-#       WEBSITES FOR SOURCE.C       #
-# --------------------------------- #
-
-https://koor.fr/C/cstdio/fwrite.wp
-https://koor.fr/C/cstdio/fgets.wp
-https://koor.fr/C/cstdio/file.wp
-https://koor.fr/C/cstdlib/system.wp
-
-
-
 # ----------------------------------------- #
 #       WEBSITES FOR THE EXPLOITATION       #
 # ----------------------------------------- #
 
 https://www.exploit-db.com/docs/english/28476-linux-format-string-exploitation.pdf
 https://www.exploit-db.com/papers/23985
-https://linux.die.net/man/3/printf

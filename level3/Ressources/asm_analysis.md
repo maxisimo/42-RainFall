@@ -1,4 +1,29 @@
-# Main
+# Get functions infos
+```
+(gdb) info functions
+All defined functions:
+
+Non-debugging symbols:
+0x08048344  _init
+0x08048390  printf@plt
+0x080483a0  fgets@plt
+0x080483b0  fwrite@plt
+0x080483c0  system@plt
+0x080483d0  __gmon_start__@plt
+0x080483e0  __libc_start_main@plt
+0x080483f0  _start
+0x08048420  __do_global_dtors_aux
+0x08048480  frame_dummy
+0x080484a4  v
+0x0804851a  main
+0x08048530  __libc_csu_init
+0x080485a0  __libc_csu_fini
+0x080485a2  __i686.get_pc_thunk.bx
+0x080485b0  __do_global_ctors_aux
+0x080485dc  _fini
+```
+
+# main
 ```
 Dump of assembler code for function main:
    0x0804851a <+0>:     push   ebp
@@ -28,7 +53,7 @@ End of assembler dump.
 ```
 <+11> - <+12> : These two lines allow us to find the state of the registers before executing the function. In others terms we quit the `main()` function. Of course we'll execute these instructions once we leaved the `p()` function.  
 
-# V
+# v
 ```
 Dump of assembler code for function v:
    0x080484a4 <+0>:     push   ebp
