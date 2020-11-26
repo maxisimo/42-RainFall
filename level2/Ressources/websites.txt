@@ -2,19 +2,5 @@
 #       WEBSITES FOR SOURCE.C       #
 # --------------------------------- #
 
-https://beta.hackndo.com/assembly-basics/
-https://koor.fr/C/cstdio/fflush.wp
-https://koor.fr/C/cstdio/fprintf.wp
-https://koor.fr/C/cstdlib/exit.wp
-https://koor.fr/C/cstdio/fputs.wp
-https://koor.fr/C/cstring/strdup.wp
+How to get the return address in C :
 https://gcc.gnu.org/onlinedocs/gcc/Return-Address.html
-https://stackoverflow.com/questions/1693011/how-can-i-determine-the-return-address-on-stack
-
-
-# ----------------------------------------- #
-#       WEBSITES FOR THE EXPLOITATION       #
-# ----------------------------------------- #
-
-https://seanmurphree.com/blog/?p=54
-https://beta.hackndo.com/retour-a-la-libc/

