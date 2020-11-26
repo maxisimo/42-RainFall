@@ -10,95 +10,23 @@ bla
 bla
 level4@RainFall:~$
 ```
-After analyze it with radare2 (please refer to [level1](https://github.com/maxisimo/42-RainFall/blob/main/level1/walkthrough.md) if you want more details on the steps to follow)  
-We can see that the `main()` function call a function named `n()` who also call a function named `p()`.  
-- main() :
-```
-[0x08048390]> s main
-[0x080484a7]> pdda
-    ; assembly                               | /* r2dec pseudo code output */
-                                             | /* level4 @ 0x80484a7 */
-                                             | #include <stdint.h>     
-                                             |
-    ; (fcn) main ()                          | int32_t main (void) {   
-    0x080484a7 push ebp                      |
-    0x080484a8 mov ebp, esp                  |
-    0x080484aa and esp, 0xfffffff0           |
-    0x080484ad call 0x8048457                |     n ();
-    0x080484b2 leave                         |
-    0x080484b3 ret                           |
-                                             | }
-[0x080484a7]>
-```
-- n() :
-```
-[0x080484a7]> s sym.n
-[0x08048457]> pdda
-    ; assembly                                   | /* r2dec pseudo code output */
-                                                 | /* level4 @ 0x8048457 */
-                                                 | #include <stdint.h>
-                                                 |  
-    ; (fcn) sym.n ()                             | int32_t n (void) {
-                                                 |     char * s;
-                                                 |     int32_t size;
-                                                 |     FILE * stream;
-    0x08048457 push ebp                          |
-    0x08048458 mov ebp, esp                      |     
-    0x0804845a sub esp, 0x218                    |
-    0x08048460 mov eax, dword [0x8049804]        |     eax = stdin;
-    0x08048465 mov dword [esp + 8], eax          |     *((esp + 8)) = eax;
-    0x08048469 mov dword [esp + 4], 0x200        |     *((esp + 4)) = 0x200;
-    0x08048471 lea eax, [ebp - 0x208]            |     eax = ebp - 0x208;
-    0x08048477 mov dword [esp], eax              |
-    0x0804847a call 0x8048350                    |     fgets (ebp);
-    0x0804847f lea eax, [ebp - 0x208]            |     eax = ebp - 0x208;
-    0x08048485 mov dword [esp], eax              |
-    0x08048488 call 0x8048444                    |     p (eax);
-    0x0804848d mov eax, dword [0x8049810]        |     eax = *(obj.m);
-    0x08048492 cmp eax, 0x1025544                |
-                                                 |     if (eax == 0x1025544) {
-    0x08048497 jne 0x80484a5                     |
-    0x08048499 mov dword [esp], 0x8048590        |
-    0x080484a0 call 0x8048360                    |         system ("/bin/cat /home/user/level5/.pass");
-                                                 |     }
-    0x080484a5 leave                             |
-    0x080484a6 ret                               |     return eax;
-                                                 | }
-[0x08048457]>
-```
-- p() :
-```
-[0x08048457]> s sym.p
-[0x08048444]> pdda
-    ; assembly                                   | /* r2dec pseudo code output */
-                                                 | /* level4 @ 0x8048444 */
-                                                 | #include <stdint.h>
-                                                 |  
-    ; (fcn) sym.p ()                             | int32_t p (char * format) {
-    0x08048444 push ebp                          |
-    0x08048445 mov ebp, esp                      |
-    0x08048447 sub esp, 0x18                     |
-    0x0804844a mov eax, dword [ebp + 8]          |     eax = *((ebp + 8));
-    0x0804844d mov dword [esp], eax              |
-    0x08048450 call 0x8048340                    |     printf (eax);
-    0x08048455 leave                             |
-    0x08048456 ret                               |     return eax;
-                                                 | }
-[0x08048444]>
-```
+After analyze it with gdb we can see that the `main()` function call a function named `n()` who also call a function named `p()`. Apart from that the binary is almost the same as the level3.  
+Please refer to file [asm_analysis.md](https://github.com/maxisimo/42-RainFall/blob/main/level4/Ressources/asm_analysis.md) in parallel of [source.c](https://github.com/maxisimo/42-RainFall/blob/main/level4/source.c) for more details.  
+<br/>
+
 The `main()` only call `n()`, not very interesting so we can skip it.  
 We can see a call to `fgets()`, in `n()`, wich is protect against buffer overflow attack.
 ```
-    0x0804847a call 0x8048350                    |     fgets (ebp);
+   0x0804847a <+35>:    call   0x8048350 <fgets@plt>
 ```
 After that we can see a call to `printf()` function, in `p()` wich is vulnerable to format string exploit!
 ```
-    0x08048450 call 0x8048340                    |     printf (eax);
+   0x08048450 <+12>:    call   0x8048340 <printf@plt>
 ```
 Then the program compares the value of a global variable `m` at `0x8049810` to 0x1025544 (16930116 in dec).  
-If the comparaison return true then the function will launch a shell via a call to `system()`.  
+If the comparaison return true the function will launch a shell via a call to `system()`.  
 We need to manipulate `printf()` function into changing the value of the variable at the address `0x8049810`.   
-First, as in [level2](https://github.com/maxisimo/42-RainFall/blob/main/level2/walkthrough.md) we need to print the memory until we reach the address of the variable we wish to modify, then change the content of the variable `m`.
+First, as in [level3](https://github.com/maxisimo/42-RainFall/blob/main/level3/walkthrough.md) we need to print the memory until we reach the address of the variable we wish to modify, then change the content of the variable `m`.
 ```
 level4@RainFall:~$ python -c 'print "aaaa" + " %x" * 10' > /tmp/exploit
 level4@RainFall:~$ cat /tmp/exploit | ./level4

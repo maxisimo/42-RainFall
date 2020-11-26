@@ -1,3 +1,28 @@
+# Get functions infos
+```
+(gdb) info functions
+All defined functions:
+
+Non-debugging symbols:
+0x080482f8  _init
+0x08048340  printf@plt
+0x08048350  fgets@plt
+0x08048360  system@plt
+0x08048370  __gmon_start__@plt
+0x08048380  __libc_start_main@plt
+0x08048390  _start
+0x080483c0  __do_global_dtors_aux
+0x08048420  frame_dummy
+0x08048444  p
+0x08048457  n
+0x080484a7  main
+0x080484c0  __libc_csu_init
+0x08048530  __libc_csu_fini
+0x08048532  __i686.get_pc_thunk.bx
+0x08048540  __do_global_ctors_aux
+0x0804856c  _fini
+```
+
 # Main
 ```
 Dump of assembler code for function main:
