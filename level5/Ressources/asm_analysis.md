@@ -1,4 +1,31 @@
-# Main
+# Get functions infos
+```
+(gdb) info functions
+All defined functions:
+
+Non-debugging symbols:
+0x08048334  _init
+0x08048380  printf@plt
+0x08048390  _exit@plt
+0x080483a0  fgets@plt
+0x080483b0  system@plt
+0x080483c0  __gmon_start__@plt
+0x080483d0  exit@plt
+0x080483e0  __libc_start_main@plt
+0x080483f0  _start
+0x08048420  __do_global_dtors_aux
+0x08048480  frame_dummy
+0x080484a4  o
+0x080484c2  n
+0x08048504  main
+0x08048520  __libc_csu_init
+0x08048590  __libc_csu_fini
+0x08048592  __i686.get_pc_thunk.bx
+0x080485a0  __do_global_ctors_aux
+0x080485cc  _fini
+```
+
+# main
 ```
 Dump of assembler code for function main:
    0x08048504 <+0>:     push   ebp
@@ -13,7 +40,7 @@ End of assembler dump.
 Very similar to the previous level, so I won't dwell on the explanations.  
 <+0> - <+12> : Call `n()` at `0x80484c2` then quit the `main()` function.  
 
-# N
+# n
 ```
 Dump of assembler code for function n:
    0x080484c2 <+0>:     push   ebp
@@ -88,7 +115,7 @@ EBP-0x208 =>    +-----------------+        |
 *uni : uninitialized
 ```
 
-# O
+# o
 ```
 Dump of assembler code for function o:
    0x080484a4 <+0>:     push   ebp
