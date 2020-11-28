@@ -36,7 +36,7 @@ auth
 service
 0x804a008, 0x804a018
 ```
-At this moment we can see that the address of service is exactly 16 bytes after the address of auth. This is beacause of malloc(), each pointer is placed right after the previous one with some padding between.  
+At this moment we can see that the address of service is exactly 16 bytes after the address of auth. This is because of malloc(), each pointer is placed right after the previous one with some padding between.  
 We can already imagine two possible solutions :  
 ## First solution
 Create two pointer with commands `auth ` and `service` long enough to reach 32 bytes including the 16 bytes of padding between them :  
