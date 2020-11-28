@@ -1,4 +1,32 @@
-# Main
+# Get functions infos
+```
+(gdb) info functions
+All defined functions:
+
+Non-debugging symbols:
+0x0804836c  _init
+0x080483b0  printf@plt
+0x080483c0  fgets@plt
+0x080483d0  time@plt
+0x080483e0  strcpy@plt
+0x080483f0  malloc@plt
+0x08048400  puts@plt
+0x08048410  __gmon_start__@plt
+0x08048420  __libc_start_main@plt
+0x08048430  fopen@plt
+0x08048440  _start
+0x08048470  __do_global_dtors_aux
+0x080484d0  frame_dummy
+0x080484f4  m
+0x08048521  main
+0x08048610  __libc_csu_init
+0x08048680  __libc_csu_fini
+0x08048682  __i686.get_pc_thunk.bx
+0x08048690  __do_global_ctors_aux
+0x080486bc  _fini
+```
+
+# main
 ```
 Dump of assembler code for function main:
    0x08048521 <+0>:     push   ebp
@@ -231,7 +259,7 @@ global c : is a variable stored at address 0x8049960
 ```
 <+219> - <+225> : These three lines allow us to find the state of the registers before executing the function. In others terms we quit the `main()` function by doing an equivalent of `return(0)` in C.
 
-# M
+# m
 ```
 Dump of assembler code for function m:
    0x080484f4 <+0>:     push   ebp

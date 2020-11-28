@@ -3,11 +3,11 @@
 #include <string.h>
 #include <time.h>
 
-char	global_c[68];
+char	c[68];
 
 void	m(void)
 {
-	printf("%s - %d\n", global_c, time(0)));
+	printf("%s - %d\n", c, (int)time(0));
 }
 
 int		main(int ac, char **av)
@@ -17,16 +17,16 @@ int		main(int ac, char **av)
 
 	a = malloc(8);
 	a[0] = 1;
-	a[1] = malloc(8);
+	a[1] = (int)malloc(8);
 
 	b = malloc(8);
 	b[0] = 2;
-	b[1] = malloc(8);
+	b[1] = (int)malloc(8);
 
-	strcpy(a[1], argv[1]);
-	strcpy(b[1], argv[2]);
+	strcpy((char *)a[1], av[1]);
+	strcpy((char *)b[1], av[2]);
 	
-	fgets(global_c, 68, fopen("/home/user/level8/.pass", "r"));
+	fgets(c, 68, fopen("/home/user/level8/.pass", "r"));
 
 	puts("~~");
 
