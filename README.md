@@ -6,3 +6,13 @@ https://gist.github.com/williballenthin/6857590dab3e2a6559d7
 https://wiremask.eu/tools/buffer-overflow-pattern-generator/
 https://beta.hackndo.com/assembly-basics/
 http://courses.cs.vt.edu/cs2505/fall2014/Notes/T21_x86CLParameters.pdf
+https://www.gladir.com/CODER/ASM8086/
+http://shell-storm.org/shellcode/
+
+1
+https://itandsecuritystuffs.wordpress.com/2014/03/18/understanding-buffer-overflows-attacks-part-1/
+https://beta.hackndo.com/buffer-overflow/
+
+2
+https://seanmurphree.com/blog/?p=54
+https://beta.hackndo.com/retour-a-la-libc/
