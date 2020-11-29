@@ -10,7 +10,9 @@
     <img src="https://img.shields.io/badge/Objectives-reverse%20engineering-brightgreen">
 </p>
 
+<br/>
 Rainfall is an iso challenge slightly more complex than Snow Crash. You will have to dive deep into reverse engineering, learn to reconstruct a code, and understand it to detect faults. Will you reach the last level?  
+<br/>
 
 ## General instructions
 To make this project, you will have to use a VMV(64 bits). Once you have started your machine with the ISO provided with this subject, if your configuration is right, you will get a simple prompt with an IP :  
@@ -33,9 +35,9 @@ This ".pass" file is located at the home root of each (level0 exclu) user.
 - [Shellcode list](http://shell-storm.org/shellcode/)
 
 ### Learn more
-- [Learn assembly basics] (https://beta.hackndo.com/assembly-basics/)
+- [Learn assembly basics](https://beta.hackndo.com/assembly-basics/)
 - [The holy grail of assembler documentation ❤](https://www.gladir.com/CODER/ASM8086/)
-- [Additional documentation on buffer overflows attacks] (https://itandsecuritystuffs.wordpress.com/2014/03/18/understanding-buffer-overflows-attacks-part-1/)
+- [Additional documentation on buffer overflows attacks](https://itandsecuritystuffs.wordpress.com/2014/03/18/understanding-buffer-overflows-attacks-part-1/)
 
 
 ## Minimal setup requirements of the VM
