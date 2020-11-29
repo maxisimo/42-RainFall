@@ -11,20 +11,42 @@
 </p>
 
 Rainfall is an iso challenge slightly more complex than Snow Crash. You will have to dive deep into reverse engineering, learn to reconstruct a code, and understand it to detect faults. Will you reach the last level?  
-https://user-images.githubusercontent.com/34480775/100522593-93df0500-31aa-11eb-8e0f-d620d0ca2398.png
-https://thanat0s.trollprod.org/2014/05/radare2-tuto-basic-premiere-approche/
-https://trailofbits.github.io/ctf/vulnerabilities/references/X86_Win32_Reverse_Engineering_Cheat_Sheet.pdf
-https://gist.github.com/williballenthin/6857590dab3e2a6559d7
-https://wiremask.eu/tools/buffer-overflow-pattern-generator/
-https://beta.hackndo.com/assembly-basics/
-http://courses.cs.vt.edu/cs2505/fall2014/Notes/T21_x86CLParameters.pdf
-https://www.gladir.com/CODER/ASM8086/
-http://shell-storm.org/shellcode/
 
-1
-https://itandsecuritystuffs.wordpress.com/2014/03/18/understanding-buffer-overflows-attacks-part-1/
-https://beta.hackndo.com/buffer-overflow/
+## General instructions
+To make this project, you will have to use a VMV(64 bits). Once you have started your machine with the ISO provided with this subject, if your configuration is right, you will get a simple prompt with an IP :  
+![alt tag](https://user-images.githubusercontent.com/34480775/100551564-b728b380-3281-11eb-91e7-51a4d16dbed5.JPG)  
+Then, you will be able to log-in using the following couple of login:password :  
+`level00:level00`  
+You really shoud use the SSH connection available on port 4242 :  
+`$> ssh level0@[VM_IP] -p 4242`  
+Once logged-in, you will have to find a way to read the ".pass" file with the "levelX" user account of the next level (X = numéro next level).  
+This ".pass" file is located at the home root of each (level0 exclu) user.  
 
-2
-https://seanmurphree.com/blog/?p=54
-https://beta.hackndo.com/retour-a-la-libc/
+## Ressources
+### Exploits
+- [Buffer overflows](https://beta.hackndo.com/buffer-overflow/)
+- [Format string attacks](https://www.exploit-db.com/docs/english/28476-linux-format-string-exploitation.pdf)
+- [Return-to-libc](https://beta.hackndo.com/retour-a-la-libc/)
+
+### Helpers
+- [Pattern generator](https://wiremask.eu/tools/buffer-overflow-pattern-generator/)
+- [Shellcode list](http://shell-storm.org/shellcode/)
+
+### Learn more
+- [Learn assembly basics] (https://beta.hackndo.com/assembly-basics/)
+- [The holy grail of assembler documentation ❤](https://www.gladir.com/CODER/ASM8086/)
+- [Additional documentation on buffer overflows attacks] (https://itandsecuritystuffs.wordpress.com/2014/03/18/understanding-buffer-overflows-attacks-part-1/)
+
+
+## Minimal setup requirements of the VM
+For this project, I used VirtualBox in order to create the VM. You will also need to download the ISO, avaible in the 42 school intranet.  
+- Name : RainFall
+- Type : Linux
+- Version : Ubuntu (64-bit)
+- RAM : 1024 MB
+- CPU : 1
+- Network access mode : bridge
+- Port : 4242
+
+
+# Rate : 125/100
