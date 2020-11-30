@@ -11,7 +11,10 @@
 </p>
 
 <br/>
+
 Rainfall is an iso challenge slightly more complex than Snow Crash. You will have to dive deep into reverse engineering, learn to reconstruct a code, and understand it to detect faults. Will you reach the last level?  
+Security challenges focused on binaries: buffer overflows, printf insertions, shellcode injections and binary analysis.
+
 <br/>
 
 ## General instructions
@@ -51,4 +54,4 @@ For this project, I used VirtualBox in order to create the VM. You will also nee
 - Port : 4242
 
 
-# Rate : 125/100
+## Rate : 125/100
