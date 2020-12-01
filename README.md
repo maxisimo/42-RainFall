@@ -43,6 +43,23 @@ This ".pass" file is located at the home root of each (level0 exclu) user.
 - [Additional documentation on buffer overflows attacks](https://itandsecuritystuffs.wordpress.com/2014/03/18/understanding-buffer-overflows-attacks-part-1/)
 
 
+## Architecture
+This project can be separated into three parts :  
+- bonus[0-3] : This part concerns the bonuses that allowed me to go beyond a rate of 100/100.  
+- doc : Documentation that I deemed necessary to write for the good understanding of certain exploits.  
+- level[0-9] : This is the mandatory part.  
+### Levels and bonuses
+All the folders belonging to these two parts are made up as following :  
+![alt tag](https://user-images.githubusercontent.com/34480775/100744464-29160f80-33de-11eb-8ba5-1c39a7ae79b0.JPG)  
+- flag :
+- Ressources
+    - asm_analysis.md :
+    - script.sh :
+    - websites.txt :
+- source :
+- walkthrough.md :
+
+
 ## Minimal setup requirements of the VM
 For this project, I used VirtualBox in order to create the VM. You will also need to download the ISO, avaible in the 42 school intranet.  
 - Name : RainFall
