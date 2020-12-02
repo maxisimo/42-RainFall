@@ -45,30 +45,30 @@ This ".pass" file is located at the home root of each (level0 exclu) user.
 
 ## Architecture
 This project can be separated into three parts :  
-- bonus[0-3] : This part concerns the bonuses that allowed me to go beyond a rate of 100/100.  
-- doc : Documentation that I deemed necessary to write for the good understanding of certain exploits.  
-- level[0-9] : This is the mandatory part.  
+- **bonus[0-3] :** This part concerns the bonuses that allowed me to go beyond a rate of 100/100.  
+- **doc :** Documentation that I deemed necessary to write for the good understanding of certain exploits.  
+- **level[0-9] :** This is the mandatory part.  
 ### Levels and bonuses
 All the folders belonging to these two parts are made up as following :  
 ![alt tag](https://user-images.githubusercontent.com/34480775/100744464-29160f80-33de-11eb-8ba5-1c39a7ae79b0.JPG)  
-- flag :
-- Ressources
-    - asm_analysis.md :
-    - script.sh :
-    - websites.txt :
-- source :
-- walkthrough.md :
+- **flag**
+- **Ressources** *(Everything I needed to prove my results during the evaluation besides the walkthrough file)*
+    - **asm_analysis.md :** Full and detailed analysis of current level binary assembly code.
+    - **script.sh :** Code and comments to test the source file.
+    - **websites.txt :** *(Optional)* Lists of useful websites, helping to solve the level.
+- **source :** Source code in pseudo C/CPP of the binary.
+- **walkthrough.md :** Step-by-step procedure.
 
 
 ## Minimal setup requirements of the VM
 For this project, I used VirtualBox in order to create the VM. You will also need to download the ISO, avaible in the 42 school intranet.  
-- Name : RainFall
-- Type : Linux
-- Version : Ubuntu (64-bit)
-- RAM : 1024 MB
-- CPU : 1
-- Network access mode : bridge
-- Port : 4242
+- **Name :** RainFall
+- **Type :** Linux
+- **Version :** Ubuntu (64-bit)
+- **RAM :** 1024 MB
+- **CPU :** 1
+- **Network access mode :** bridge
+- **Port :** 4242
 
 
 ## Rate : 125/100
